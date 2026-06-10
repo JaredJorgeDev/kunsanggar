@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago recibido | Kunsang Gar México</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#14008B">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1942816236460649');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1942816236460649&ev=PageView&noscript=1" /></noscript>
+  <!-- End Meta Pixel Code -->
+</head>
+
+<body>
+  <main class="return-page">
+    <section class="section">
+      <div class="shell return-card">
+        <p class="eyebrow">Mercado Pago</p>
+        <h1>Pago recibido</h1>
+        <p>Gracias por tu compra. Recibirás la confirmación por correo o WhatsApp con los detalles de tu evento.</p>
+        <dl class="event-details" id="purchase-details">
+          <div>
+            <dt>Evento</dt>
+            <dd id="purchase-event">Kunsang Gar México</dd>
+          </div>
+          <div>
+            <dt>Boleto</dt>
+            <dd id="purchase-ticket">General</dd>
+          </div>
+          <div>
+            <dt>Cantidad</dt>
+            <dd id="purchase-quantity">1</dd>
+          </div>
+        </dl>
+        <a class="button" href="index.html#compra">Volver a la landing</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const checkout = JSON.parse(sessionStorage.getItem("kunsangCheckout") || "{}");
+      const eventName = checkout.eventoNombre || checkout.evento || "Kunsang Gar México";
+      const ticketType = checkout.tipo_ticket || checkout.tipoBoleto || "General";
+      const quantity = checkout.cantidad || 1;
+      const paymentStatus = params.get("status") || params.get("collection_status") || "";
+      const paymentId = params.get("payment_id") || params.get("collection_id") || "";
+      const preferenceId = params.get("preference_id") || checkout.preferenceId || "";
+      const externalReference = params.get("external_reference") || checkout.externalReference || "";
+      const purchaseKey = `purchase:${paymentId || preferenceId || externalReference}`;
+
+      document.getElementById("purchase-event").textContent = eventName;
+      document.getElementById("purchase-ticket").textContent = ticketType;
+      document.getElementById("purchase-quantity").textContent = quantity;
+
+      if (paymentStatus === "approved" && typeof window.fbq === "function" && !sessionStorage.getItem(purchaseKey)) {
+        window.fbq("track", "Purchase", {
+          currency: "MXN",
+          value: Number(checkout.total || 0),
+          content_name: eventName,
+          num_items: Number(quantity)
+        });
+
+        sessionStorage.setItem(purchaseKey, "1");
+      }
+    })();
+  </script>
+</body>
+
+</html>
