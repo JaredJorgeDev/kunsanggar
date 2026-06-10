@@ -3,9 +3,6 @@
   const revealItems = document.querySelectorAll(".reveal");
   const form = document.getElementById("lead-form");
   const status = document.getElementById("form-status");
-  const checkoutForm = document.getElementById("checkout-form");
-  const checkoutStatus = document.getElementById("checkout-status");
-  const checkoutEventInput = document.getElementById("checkout-evento");
   const stickyCta = document.querySelector(".mobile-sticky-cta");
   let hasTrackedViewContent = false;
   let lastConversionTrackedAt = 0;
@@ -115,84 +112,12 @@
     });
   });
 
-  if (checkoutForm && checkoutStatus && checkoutEventInput) {
-    const checkoutEvents = {
-      tsa_lung: {
-        name: "TSA Lung | 20 y 21 junio 2026",
-        ticket: "tsa_lung"
-      },
-      mil_ofrendas: {
-        name: "Mil Ofrendas a Nampar Gyalwa | 26, 27 y 28 junio 2026",
-        ticket: "mil_ofrendas"
-      }
-    };
-
-    checkoutForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      const submitter = event.submitter;
-      const checkoutEvent = submitter?.dataset.checkoutEvent;
-      const selectedEvent = checkoutEvents[checkoutEvent];
-
-      checkoutStatus.classList.remove("is-success", "is-error");
-
-      if (!selectedEvent) {
-        checkoutStatus.textContent = "Selecciona el evento que quieres comprar.";
-        checkoutStatus.classList.add("is-error");
-        return;
-      }
-
-      checkoutEventInput.value = checkoutEvent;
-
-      if (!checkoutForm.reportValidity()) return;
-
-      const formData = new FormData(checkoutForm);
-      const payload = {
-        nombre: formData.get("nombre")?.toString().trim(),
-        email: formData.get("correo")?.toString().trim(),
-        telefono: formData.get("telefono")?.toString().trim(),
-        evento: checkoutEvent,
-        tipo_ticket: formData.get("tipoBoleto")?.toString(),
-        cantidad: Number(formData.get("cantidad") || 1)
-      };
-
+  document.querySelectorAll(".checkout-link").forEach((link) => {
+    link.addEventListener("click", () => {
       trackMetaEvent("track", "InitiateCheckout");
       trackMetaEvent("trackCustom", "InitiateCheckoutTsaLung");
-
-      checkoutStatus.textContent = "Conectando con Mercado Pago...";
-      submitter.disabled = true;
-
-      try {
-        const response = await fetch("/api/create-preference", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const result = await response.json();
-
-        if (!response.ok || !result.init_point) {
-          throw new Error(result.error || "No fue posible iniciar el pago.");
-        }
-
-        sessionStorage.setItem("kunsangCheckout", JSON.stringify({
-          ...payload,
-          eventoNombre: selectedEvent.name,
-          preferenceId: result.preference_id || "",
-          externalReference: result.external_reference || "",
-          total: result.total_amount || null
-        }));
-
-        window.location.href = result.init_point;
-      } catch (error) {
-        checkoutStatus.textContent = error.message || "No fue posible iniciar el pago. Intenta nuevamente.";
-        checkoutStatus.classList.add("is-error");
-        submitter.disabled = false;
-      }
     });
-  }
+  });
 
   if (!form || !status) return;
 
