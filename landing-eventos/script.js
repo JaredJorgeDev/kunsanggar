@@ -1,8 +1,5 @@
 (function () {
-  const WHATSAPP_NUMBER = "527752156500";
   const revealItems = document.querySelectorAll(".reveal");
-  const form = document.getElementById("lead-form");
-  const status = document.getElementById("form-status");
   const stickyCta = document.querySelector(".mobile-sticky-cta");
   let hasTrackedViewContent = false;
   let lastConversionTrackedAt = 0;
@@ -47,18 +44,16 @@
     if (!trigger) return;
 
     const triggerHref = trigger.getAttribute("href") || "";
-    const triggerData = Object.values(trigger.dataset || {}).join(" ");
     const visibleText = normalizeTrackingText(trigger.textContent);
     const ariaLabel = normalizeTrackingText(trigger.getAttribute("aria-label"));
     const title = normalizeTrackingText(trigger.getAttribute("title"));
     const classAndId = normalizeTrackingText(`${trigger.id || ""} ${String(trigger.className || "")}`);
-    const dataAttributes = normalizeTrackingText(triggerData);
-    const textToCheck = `${visibleText} ${ariaLabel} ${title} ${dataAttributes}`;
+    const textToCheck = `${visibleText} ${ariaLabel} ${title}`;
     const isWhatsAppHref = /(?:wa\.me|whatsapp|api\.whatsapp\.com)/i.test(triggerHref);
-    const hasConversionText = /\b(reservar|inscribirme|quiero asistir|apartar|whatsapp|whats|informacion|informes)\b/i.test(textToCheck);
-    const hasConversionClassOrId = /\b(whatsapp|reserva|lead|cta)\b/i.test(classAndId);
+    const hasWhatsAppText = /\b(whatsapp|whats)\b/i.test(textToCheck);
+    const hasWhatsAppClassOrId = /\bwhatsapp\b/i.test(classAndId);
 
-    if (hasConversionText || isWhatsAppHref || hasConversionClassOrId) {
+    if (isWhatsAppHref || hasWhatsAppText || hasWhatsAppClassOrId) {
       trackWhatsAppConversion();
     }
   };
@@ -117,82 +112,5 @@
       trackMetaEvent("track", "InitiateCheckout");
       trackMetaEvent("trackCustom", "InitiateCheckoutTsaLung");
     });
-  });
-
-  if (!form || !status) return;
-
-  const fields = {
-    nombre: document.getElementById("nombre"),
-    whatsapp: document.getElementById("whatsapp"),
-    email: document.getElementById("email"),
-    origen: document.getElementById("origen")
-  };
-
-  const setFieldState = (field, isValid) => {
-    field.closest(".field").classList.toggle("is-invalid", !isValid);
-  };
-
-  const validators = {
-    nombre: (value) => value.trim().length >= 2,
-    whatsapp: (value) => value.replace(/\D/g, "").length >= 10,
-    email: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()),
-    origen: (value) => value.trim().length > 0
-  };
-
-  Object.entries(fields).forEach(([name, field]) => {
-    field.addEventListener("input", () => {
-      setFieldState(field, validators[name](field.value));
-    });
-  });
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    status.classList.remove("is-success", "is-error");
-
-    const invalidField = Object.entries(fields).find(([name, field]) => {
-      const isValid = validators[name](field.value);
-      setFieldState(field, isValid);
-      return !isValid;
-    });
-
-    if (invalidField) {
-      status.textContent = "Revisa los campos marcados para poder contactarte correctamente.";
-      status.classList.add("is-error");
-      invalidField[1].focus();
-      return;
-    }
-
-    const lead = {
-      nombre: fields.nombre.value.trim(),
-      whatsapp: fields.whatsapp.value.trim(),
-      email: fields.email.value.trim(),
-      origen: fields.origen.value,
-      evento: "TSA Lung",
-      fecha: document.getElementById("event-date")?.textContent.trim() || "20 y 21 de junio",
-      createdAt: new Date().toISOString()
-    };
-
-    localStorage.setItem("tsaLungLead", JSON.stringify(lead));
-
-    const message = [
-      "Hola Kunsang Gar México. Quiero recibir información para completar mi registro.",
-      "",
-      `Nombre: ${lead.nombre}`,
-      `WhatsApp: ${lead.whatsapp}`,
-      `Correo: ${lead.email}`,
-      `Me enteré por: ${lead.origen}`,
-      `Evento de interés: ${lead.evento}`
-    ].join("\n");
-
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-    trackWhatsAppConversion();
-
-    status.textContent = "Abriendo WhatsApp con tus datos de registro.";
-    status.classList.add("is-success");
-    form.reset();
-    Object.values(fields).forEach((field) => setFieldState(field, true));
-    window.open(whatsappUrl, "_blank", "noopener");
   });
 })();
