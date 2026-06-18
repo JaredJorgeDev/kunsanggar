@@ -1,6 +1,8 @@
 (function () {
   const revealItems = document.querySelectorAll(".reveal");
   const checkoutStatus = document.getElementById("checkout-status");
+  const buyerForm = document.getElementById("buyer-form");
+  const buyerStatus = document.getElementById("buyer-status");
   const stickyCta = document.querySelector(".mobile-sticky-cta");
   let hasTrackedViewContent = false;
   let lastConversionTrackedAt = 0;
@@ -114,32 +116,19 @@
     mil_ofrendas: "Mil Ofrendas a Nampar Gyalwa | 26, 27 y 28 junio 2026"
   };
 
-  document.addEventListener("click", async (event) => {
-    const trigger = event.target.closest(".checkout-link[data-checkout-event]");
-    if (!trigger) return;
-
-    event.preventDefault();
-
+  const startCheckout = async ({ payload, eventName, statusElement, trigger }) => {
     if (isCheckoutLoading) return;
 
-    const checkoutEvent = trigger.dataset.checkoutEvent;
-    const eventName = checkoutEvents[checkoutEvent];
-
-    if (!eventName) return;
-
     isCheckoutLoading = true;
-    trigger.disabled = true;
 
-    if (checkoutStatus) {
-      checkoutStatus.classList.remove("is-success", "is-error");
-      checkoutStatus.textContent = "Conectando con Mercado Pago...";
+    if (trigger) {
+      trigger.disabled = true;
     }
 
-    const payload = {
-      evento: checkoutEvent,
-      tipo_ticket: "General",
-      cantidad: 1
-    };
+    if (statusElement) {
+      statusElement.classList.remove("is-success", "is-error");
+      statusElement.textContent = "Conectando con Mercado Pago...";
+    }
 
     trackMetaEvent("track", "InitiateCheckout");
     trackMetaEvent("trackCustom", "InitiateCheckoutTsaLung");
@@ -169,13 +158,69 @@
 
       window.location.href = result.init_point;
     } catch (error) {
-      if (checkoutStatus) {
-        checkoutStatus.textContent = error.message || "No fue posible iniciar el pago. Intenta nuevamente.";
-        checkoutStatus.classList.add("is-error");
+      if (statusElement) {
+        statusElement.textContent = error.message || "No fue posible iniciar el pago. Intenta nuevamente.";
+        statusElement.classList.add("is-error");
       }
 
       isCheckoutLoading = false;
-      trigger.disabled = false;
+
+      if (trigger) {
+        trigger.disabled = false;
+      }
     }
+  };
+
+  document.addEventListener("click", async (event) => {
+    const trigger = event.target.closest(".checkout-link[data-checkout-event]");
+    if (!trigger) return;
+
+    event.preventDefault();
+
+    const checkoutEvent = trigger.dataset.checkoutEvent;
+    const eventName = checkoutEvents[checkoutEvent];
+
+    if (!eventName) return;
+
+    const payload = {
+      evento: checkoutEvent,
+      tipo_ticket: "General",
+      cantidad: 1
+    };
+
+    startCheckout({
+      payload,
+      eventName,
+      statusElement: checkoutStatus,
+      trigger
+    });
   }, true);
+
+  if (buyerForm && buyerStatus) {
+    buyerForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (!buyerForm.reportValidity()) return;
+
+      const formData = new FormData(buyerForm);
+      const checkoutEvent = formData.get("evento")?.toString();
+      const eventName = checkoutEvents[checkoutEvent];
+
+      if (!eventName) return;
+
+      startCheckout({
+        payload: {
+          nombre: formData.get("nombre")?.toString().trim(),
+          email: formData.get("email")?.toString().trim(),
+          telefono: formData.get("telefono")?.toString().trim(),
+          evento: checkoutEvent,
+          tipo_ticket: "General",
+          cantidad: Number(formData.get("cantidad") || 1)
+        },
+        eventName,
+        statusElement: buyerStatus,
+        trigger: event.submitter
+      });
+    });
+  }
 })();

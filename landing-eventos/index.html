@@ -300,10 +300,38 @@
           <a class="button button-light" id="cta-whatsapp" href="https://wa.me/527752156500"
             target="_blank" rel="noopener">Atención humana por WhatsApp</a>
         </div>
-        <div class="lead-form reveal">
-          <a class="button button-full" href="#compra">Comprar boleto TSA Lung</a>
-          <a class="button button-outline button-full" href="#compra">Comprar boleto Mil Ofrendas</a>
-        </div>
+        <form class="lead-form reveal" id="buyer-form" action="/api/create-preference" method="post" novalidate>
+          <div class="field">
+            <label for="buyer-nombre">Nombre</label>
+            <input id="buyer-nombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre completo"
+              required>
+          </div>
+          <div class="field">
+            <label for="buyer-email">Correo</label>
+            <input id="buyer-email" name="email" type="email" autocomplete="email" placeholder="correo@ejemplo.com"
+              required>
+          </div>
+          <div class="field">
+            <label for="buyer-telefono">Teléfono</label>
+            <input id="buyer-telefono" name="telefono" type="tel" inputmode="tel" autocomplete="tel"
+              placeholder="Tu teléfono" required>
+          </div>
+          <div class="field">
+            <label for="buyer-evento">Evento</label>
+            <select id="buyer-evento" name="evento" required>
+              <option value="tsa_lung">TSA Lung</option>
+              <option value="mil_ofrendas">Mil Ofrendas</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="buyer-cantidad">Cantidad</label>
+            <input id="buyer-cantidad" name="cantidad" type="number" min="1" max="10" value="1" required>
+          </div>
+          <button class="button button-full" type="submit">Comprar con mis datos</button>
+          <p class="form-note" id="buyer-status" role="status" aria-live="polite">
+            Este formulario es opcional. También puedes comprar directo arriba.
+          </p>
+        </form>
       </div>
     </section>
 
