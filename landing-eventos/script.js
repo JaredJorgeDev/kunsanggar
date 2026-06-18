@@ -84,6 +84,8 @@
 
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener("click", (event) => {
+      if (event.defaultPrevented || link.matches(".checkout-link[data-checkout-event]")) return;
+
       const target = document.querySelector(link.getAttribute("href"));
       if (!target) return;
 
