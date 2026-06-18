@@ -1,4 +1,5 @@
 const MERCADOPAGO_PAYMENTS_URL = "https://api.mercadopago.com/v1/payments";
+const MERCADOPAGO_MERCHANT_ORDERS_URL = "https://api.mercadopago.com/merchant_orders";
 
 const sendJson = (res, statusCode, payload) => {
   res.statusCode = statusCode;
@@ -69,9 +70,33 @@ const getPaymentId = (query, body) =>
   body?.resource?.split("/").pop() ||
   body?.id;
 
-const isPaymentNotification = (query, body) => {
+const getNotificationType = (query, body) =>
+  query?.type || query?.topic || body?.type || body?.topic || "";
+
+const getMerchantOrderId = (query, body) =>
+  query?.id ||
+  body?.resource?.split("/").pop() ||
+  body?.id;
+
+const isSupportedNotification = (query, body) => {
   const type = query?.type || query?.topic || body?.type || body?.topic || "";
-  return !type || type === "payment";
+  return !type || type === "payment" || type === "merchant_order";
+};
+
+const fetchMercadoPagoJson = async (url, accessToken) => {
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "No fue posible consultar Mercado Pago.");
+  }
+
+  return data;
 };
 
 module.exports = async function handler(req, res) {
@@ -94,79 +119,120 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 400, { error: "JSON inválido." });
   }
 
-  if (!isPaymentNotification(req.query, body)) {
+  if (!isSupportedNotification(req.query, body)) {
+    console.log("[Mercado Pago webhook] ignored unsupported notification", {
+      type: getNotificationType(req.query, body)
+    });
     return sendJson(res, 200, { ok: true, ignored: true });
   }
 
-  const paymentId = getPaymentId(req.query, body);
-
-  if (!paymentId) {
-    return sendJson(res, 200, { ok: true, ignored: true });
-  }
+  const notificationType = getNotificationType(req.query, body);
 
   try {
-    const paymentResponse = await fetch(`${MERCADOPAGO_PAYMENTS_URL}/${paymentId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
+    let paymentIds = [];
+
+    if (!notificationType || notificationType === "payment") {
+      const paymentId = getPaymentId(req.query, body);
+      if (paymentId) paymentIds.push(paymentId);
+    }
+
+    if (notificationType === "merchant_order") {
+      const merchantOrderId = getMerchantOrderId(req.query, body);
+
+      if (merchantOrderId) {
+        const merchantOrder = await fetchMercadoPagoJson(
+          `${MERCADOPAGO_MERCHANT_ORDERS_URL}/${merchantOrderId}`,
+          accessToken
+        );
+
+        paymentIds = (merchantOrder.payments || [])
+          .map((payment) => payment.id)
+          .filter(Boolean);
+
+        console.log("[Mercado Pago webhook] merchant_order received", {
+          merchant_order_id: String(merchantOrderId),
+          payment_ids: paymentIds.map(String),
+          status: merchantOrder.status || null
+        });
       }
-    });
+    }
 
-    const payment = await paymentResponse.json();
+    if (!paymentIds.length) {
+      console.log("[Mercado Pago webhook] ignored without payment_id", {
+        type: notificationType || null
+      });
+      return sendJson(res, 200, { ok: true, ignored: true, reason: "Sin payment_id" });
+    }
 
-    if (!paymentResponse.ok) {
-      return sendJson(res, paymentResponse.status, {
-        error: payment.message || "No fue posible consultar el pago."
+    const updates = [];
+
+    for (const paymentId of paymentIds) {
+      const payment = await fetchMercadoPagoJson(`${MERCADOPAGO_PAYMENTS_URL}/${paymentId}`, accessToken);
+      const externalReference = payment.external_reference || payment.metadata?.external_reference;
+
+      if (!externalReference) {
+        console.log("[Mercado Pago webhook] ignored payment without external_reference", {
+          payment_id: String(payment.id || paymentId),
+          status: payment.status || null,
+          status_detail: payment.status_detail || null
+        });
+        continue;
+      }
+
+      const updatePayload = {
+        payment_id: String(payment.id || paymentId),
+        payment_status: normalizeStatus(payment.status),
+        payment_status_detail: payment.status_detail || null,
+        payment_method: payment.payment_method_id || null,
+        date_approved: payment.date_approved || null,
+        raw_payment: payment,
+        updated_at: new Date().toISOString()
+      };
+
+      if (payment.payer?.email) {
+        updatePayload.buyer_email = payment.payer.email;
+      }
+
+      const payerName = [payment.payer?.first_name, payment.payer?.last_name].filter(Boolean).join(" ").trim();
+      const payerPhone = payment.payer?.phone?.number || payment.additional_info?.payer?.phone?.number;
+
+      if (payerName) {
+        updatePayload.buyer_name = payerName;
+      }
+
+      if (payerPhone) {
+        updatePayload.buyer_phone = String(payerPhone);
+      }
+
+      if (payment.transaction_amount || payment.transaction_details?.total_paid_amount) {
+        updatePayload.total_amount = payment.transaction_amount || payment.transaction_details.total_paid_amount;
+      }
+
+      await supabaseRequest(`ticket_orders?external_reference=eq.${encodeURIComponent(externalReference)}`, {
+        method: "PATCH",
+        headers: {
+          Prefer: "return=minimal"
+        },
+        body: JSON.stringify(updatePayload)
+      });
+
+      console.log("[Mercado Pago webhook] payment updated", {
+        payment_id: String(payment.id || paymentId),
+        external_reference: externalReference,
+        status: payment.status || null,
+        status_detail: payment.status_detail || null
+      });
+
+      updates.push({
+        payment_id: String(payment.id || paymentId),
+        status: normalizeStatus(payment.status),
+        external_reference: externalReference
       });
     }
 
-    const externalReference = payment.external_reference || payment.metadata?.external_reference;
-
-    if (!externalReference) {
-      return sendJson(res, 200, { ok: true, ignored: true, reason: "Sin external_reference" });
-    }
-
-    const updatePayload = {
-      payment_id: String(payment.id || paymentId),
-      payment_status: normalizeStatus(payment.status),
-      payment_status_detail: payment.status_detail || null,
-      payment_method: payment.payment_method_id || null,
-      date_approved: payment.date_approved || null,
-      raw_payment: payment,
-      updated_at: new Date().toISOString()
-    };
-
-    if (payment.payer?.email) {
-      updatePayload.buyer_email = payment.payer.email;
-    }
-
-    const payerName = [payment.payer?.first_name, payment.payer?.last_name].filter(Boolean).join(" ").trim();
-    const payerPhone = payment.payer?.phone?.number || payment.additional_info?.payer?.phone?.number;
-
-    if (payerName) {
-      updatePayload.buyer_name = payerName;
-    }
-
-    if (payerPhone) {
-      updatePayload.buyer_phone = String(payerPhone);
-    }
-
-    if (payment.transaction_amount || payment.transaction_details?.total_paid_amount) {
-      updatePayload.total_amount = payment.transaction_amount || payment.transaction_details.total_paid_amount;
-    }
-
-    await supabaseRequest(`ticket_orders?external_reference=eq.${encodeURIComponent(externalReference)}`, {
-      method: "PATCH",
-      headers: {
-        Prefer: "return=minimal"
-      },
-      body: JSON.stringify(updatePayload)
-    });
-
     return sendJson(res, 200, {
       ok: true,
-      payment_id: String(payment.id || paymentId),
-      status: normalizeStatus(payment.status),
-      external_reference: externalReference
+      updates
     });
   } catch (error) {
     return sendJson(res, 500, { error: error.message || "Error procesando webhook." });
