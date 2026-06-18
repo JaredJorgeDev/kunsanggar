@@ -139,6 +139,17 @@ module.exports = async function handler(req, res) {
       updatePayload.buyer_email = payment.payer.email;
     }
 
+    const payerName = [payment.payer?.first_name, payment.payer?.last_name].filter(Boolean).join(" ").trim();
+    const payerPhone = payment.payer?.phone?.number || payment.additional_info?.payer?.phone?.number;
+
+    if (payerName) {
+      updatePayload.buyer_name = payerName;
+    }
+
+    if (payerPhone) {
+      updatePayload.buyer_phone = String(payerPhone);
+    }
+
     if (payment.transaction_amount || payment.transaction_details?.total_paid_amount) {
       updatePayload.total_amount = payment.transaction_amount || payment.transaction_details.total_paid_amount;
     }

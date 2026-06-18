@@ -89,15 +89,8 @@ module.exports = async function handler(req, res) {
 
   const eventSlug = String(body.evento || "").trim().replace(/-/g, "_");
   const event = events[eventSlug];
-  const quantity = Number.parseInt(body.cantidad, 10);
-  const buyerName = String(body.nombre || "").trim();
-  const buyerEmail = String(body.email || body.correo || "").trim();
-  const buyerPhone = String(body.telefono || "").trim();
+  const quantity = Number.parseInt(body.cantidad || 1, 10);
   const ticketType = String(body.tipo_ticket || body.tipoBoleto || "General").trim();
-
-  if (!buyerName || !buyerEmail || !buyerPhone || !ticketType || !body.evento) {
-    return sendJson(res, 400, { error: "Faltan campos obligatorios." });
-  }
 
   if (!event) {
     return sendJson(res, 400, { error: "Evento no permitido." });
@@ -109,6 +102,9 @@ module.exports = async function handler(req, res) {
 
   const externalReference = createExternalReference(eventSlug);
   const totalAmount = event.price * quantity;
+  const buyerName = String(body.nombre || "Pendiente Mercado Pago").trim();
+  const buyerEmail = String(body.email || body.correo || `pendiente+${externalReference}@kunsanggarmexico.local`).trim();
+  const buyerPhone = String(body.telefono || "Pendiente").trim();
 
   try {
     await supabaseRequest("ticket_orders", {
@@ -144,13 +140,6 @@ module.exports = async function handler(req, res) {
         currency_id: "MXN"
       }
     ],
-    payer: {
-      name: buyerName,
-      email: buyerEmail,
-      phone: {
-        number: buyerPhone
-      }
-    },
     back_urls: {
       success: `${siteUrl}/success.html`,
       failure: `${siteUrl}/failure.html`,
@@ -169,6 +158,16 @@ module.exports = async function handler(req, res) {
       cantidad: quantity
     }
   };
+
+  if (body.email || body.correo || body.nombre || body.telefono) {
+    preference.payer = {
+      name: buyerName,
+      email: buyerEmail,
+      phone: {
+        number: buyerPhone
+      }
+    };
+  }
 
   try {
     const response = await fetch(MERCADOPAGO_PREFERENCES_URL, {

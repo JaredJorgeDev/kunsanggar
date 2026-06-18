@@ -71,14 +71,14 @@ https://kunsanggarmexico.com/api/mercadopago-webhook
 
 ## Flujo
 
-1. El usuario llena datos y da clic en `Comprar boleto TSA Lung` o `Comprar boleto Mil Ofrendas`.
+1. El usuario da clic en `Comprar boleto TSA Lung` o `Comprar boleto Mil Ofrendas`.
 2. `script.js` dispara `fbq('track', 'InitiateCheckout')`.
 3. El frontend llama a `/api/create-preference`.
-4. La función inserta una orden `created` en Supabase.
+4. La función inserta una orden `created` en Supabase con datos pendientes.
 5. La función crea una preferencia en Mercado Pago.
 6. Mercado Pago redirige al usuario a Checkout Pro.
 7. Mercado Pago regresa a `success.html`, `failure.html` o `pending.html`.
-8. Mercado Pago llama al webhook y este actualiza `ticket_orders`.
+8. Mercado Pago llama al webhook y este actualiza `ticket_orders` con datos del pago y del comprador disponibles.
 
 ## Eventos Meta Pixel
 

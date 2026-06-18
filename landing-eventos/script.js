@@ -1,10 +1,10 @@
 (function () {
   const revealItems = document.querySelectorAll(".reveal");
-  const checkoutForm = document.getElementById("checkout-form");
   const checkoutStatus = document.getElementById("checkout-status");
   const stickyCta = document.querySelector(".mobile-sticky-cta");
   let hasTrackedViewContent = false;
   let lastConversionTrackedAt = 0;
+  let isCheckoutLoading = false;
 
   const trackMetaEvent = (eventType, eventName) => {
     if (typeof window.fbq === "function") {
@@ -109,74 +109,73 @@
     });
   });
 
-  if (checkoutForm && checkoutStatus) {
-    const checkoutEvents = {
-      tsa_lung: "TSA Lung | 20 y 21 junio 2026",
-      mil_ofrendas: "Mil Ofrendas a Nampar Gyalwa | 26, 27 y 28 junio 2026"
+  const checkoutEvents = {
+    tsa_lung: "TSA Lung | 20 y 21 junio 2026",
+    mil_ofrendas: "Mil Ofrendas a Nampar Gyalwa | 26, 27 y 28 junio 2026"
+  };
+
+  document.addEventListener("click", async (event) => {
+    const trigger = event.target.closest(".checkout-link[data-checkout-event]");
+    if (!trigger) return;
+
+    event.preventDefault();
+
+    if (isCheckoutLoading) return;
+
+    const checkoutEvent = trigger.dataset.checkoutEvent;
+    const eventName = checkoutEvents[checkoutEvent];
+
+    if (!eventName) return;
+
+    isCheckoutLoading = true;
+    trigger.disabled = true;
+
+    if (checkoutStatus) {
+      checkoutStatus.classList.remove("is-success", "is-error");
+      checkoutStatus.textContent = "Conectando con Mercado Pago...";
+    }
+
+    const payload = {
+      evento: checkoutEvent,
+      tipo_ticket: "General",
+      cantidad: 1
     };
 
-    checkoutForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
+    trackMetaEvent("track", "InitiateCheckout");
+    trackMetaEvent("trackCustom", "InitiateCheckoutTsaLung");
 
-      const submitter = event.submitter;
-      const checkoutEvent = submitter?.dataset.checkoutEvent;
-      const eventName = checkoutEvents[checkoutEvent];
+    try {
+      const response = await fetch("/api/create-preference", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
 
-      checkoutStatus.classList.remove("is-success", "is-error");
+      const result = await response.json();
 
-      if (!eventName) {
-        checkoutStatus.textContent = "Selecciona el evento que quieres comprar.";
-        checkoutStatus.classList.add("is-error");
-        return;
+      if (!response.ok || !result.init_point) {
+        throw new Error(result.error || "No fue posible iniciar el pago.");
       }
 
-      if (!checkoutForm.reportValidity()) return;
+      sessionStorage.setItem("kunsangCheckout", JSON.stringify({
+        ...payload,
+        eventoNombre: eventName,
+        preferenceId: result.preference_id || "",
+        externalReference: result.external_reference || "",
+        total: result.total_amount || null
+      }));
 
-      const formData = new FormData(checkoutForm);
-      const payload = {
-        nombre: formData.get("nombre")?.toString().trim(),
-        email: formData.get("email")?.toString().trim(),
-        telefono: formData.get("telefono")?.toString().trim(),
-        evento: checkoutEvent,
-        tipo_ticket: formData.get("tipo_ticket")?.toString(),
-        cantidad: Number(formData.get("cantidad") || 1)
-      };
-
-      trackMetaEvent("track", "InitiateCheckout");
-      trackMetaEvent("trackCustom", "InitiateCheckoutTsaLung");
-
-      checkoutStatus.textContent = "Conectando con Mercado Pago...";
-      submitter.disabled = true;
-
-      try {
-        const response = await fetch("/api/create-preference", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const result = await response.json();
-
-        if (!response.ok || !result.init_point) {
-          throw new Error(result.error || "No fue posible iniciar el pago.");
-        }
-
-        sessionStorage.setItem("kunsangCheckout", JSON.stringify({
-          ...payload,
-          eventoNombre: eventName,
-          preferenceId: result.preference_id || "",
-          externalReference: result.external_reference || "",
-          total: result.total_amount || null
-        }));
-
-        window.location.href = result.init_point;
-      } catch (error) {
+      window.location.href = result.init_point;
+    } catch (error) {
+      if (checkoutStatus) {
         checkoutStatus.textContent = error.message || "No fue posible iniciar el pago. Intenta nuevamente.";
         checkoutStatus.classList.add("is-error");
-        submitter.disabled = false;
       }
-    });
-  }
+
+      isCheckoutLoading = false;
+      trigger.disabled = false;
+    }
+  }, true);
 })();

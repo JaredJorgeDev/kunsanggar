@@ -272,39 +272,12 @@
             <p>Camino a los Azulejos #9, Col. Valle Escondido, Zona Esmeralda, Atizapán de Zaragoza.</p>
           </article>
         </div>
-        <form class="checkout-form reveal" id="checkout-form" action="/api/create-preference" method="post" novalidate>
-          <div class="field">
-            <label for="checkout-nombre">Nombre</label>
-            <input id="checkout-nombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre completo"
-              required>
-          </div>
-          <div class="field">
-            <label for="checkout-email">Correo</label>
-            <input id="checkout-email" name="email" type="email" autocomplete="email" placeholder="correo@ejemplo.com"
-              required>
-          </div>
-          <div class="field">
-            <label for="checkout-telefono">Teléfono</label>
-            <input id="checkout-telefono" name="telefono" type="tel" inputmode="tel" autocomplete="tel"
-              placeholder="Tu teléfono" required>
-          </div>
-          <div class="field">
-            <label for="checkout-ticket">Tipo de boleto</label>
-            <select id="checkout-ticket" name="tipo_ticket" required>
-              <option value="General">General</option>
-              <option value="Presencial">Presencial</option>
-              <option value="Zoom">Zoom</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="checkout-cantidad">Cantidad</label>
-            <input id="checkout-cantidad" name="cantidad" type="number" min="1" max="10" value="1" required>
-          </div>
+        <div class="checkout-panel reveal">
           <div class="checkout-actions" aria-label="Compra de boletos por Mercado Pago">
-            <button class="button button-full checkout-link" type="submit" data-checkout-event="tsa_lung">
+            <button class="button button-full checkout-link" type="button" data-checkout-event="tsa_lung">
               Comprar boleto TSA Lung
             </button>
-            <button class="button button-outline button-full checkout-link" type="submit"
+            <button class="button button-outline button-full checkout-link" type="button"
               data-checkout-event="mil_ofrendas">
               Comprar boleto Mil Ofrendas
             </button>
@@ -312,7 +285,7 @@
           <p class="form-note" id="checkout-status" role="status" aria-live="polite">
             El pago se procesa de forma segura en Mercado Pago.
           </p>
-        </form>
+        </div>
       </div>
     </section>
 
