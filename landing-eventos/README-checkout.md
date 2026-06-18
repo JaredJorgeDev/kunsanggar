@@ -31,6 +31,10 @@ SUPABASE_SERVICE_ROLE_KEY=
 
 No poner `MERCADOPAGO_ACCESS_TOKEN` ni `SUPABASE_SERVICE_ROLE_KEY` en HTML o JS público.
 
+La Public Key de Mercado Pago puede usarse en frontend si después se integra Bricks, pero Checkout Pro con preferencia
+solo necesita `MERCADOPAGO_ACCESS_TOKEN` en backend. Si un Access Token se compartió en texto plano, rotarlo en Mercado
+Pago antes de producción y configurar el nuevo valor únicamente como variable de entorno.
+
 ## Supabase
 
 1. Crear proyecto en Supabase.

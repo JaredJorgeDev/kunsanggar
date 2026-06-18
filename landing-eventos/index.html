@@ -67,8 +67,7 @@
         <a href="#evento">Evento</a>
         <a href="#faq">FAQ</a>
       </div>
-      <a class="button button-small ticket-link checkout-link" href="https://mpago.li/2Ua6D4T" target="_blank"
-        rel="noopener" data-checkout-event="tsa_lung">Comprar boleto</a>
+      <a class="button button-small ticket-link" href="#compra">Comprar boleto</a>
     </nav>
   </header>
 
@@ -86,10 +85,8 @@
             <span>Cupo limitado</span>
           </div>
           <div class="hero-actions">
-            <a class="button ticket-link checkout-link" id="cta-hero" href="https://mpago.li/2Ua6D4T" target="_blank"
-              rel="noopener" data-checkout-event="tsa_lung">Comprar boleto TSA Lung</a>
-            <a class="button button-outline checkout-link" href="https://mpago.li/24Tx68K" target="_blank"
-              rel="noopener" data-checkout-event="mil_ofrendas">Comprar Mil Ofrendas</a>
+            <a class="button ticket-link" id="cta-hero" href="#compra">Comprar boleto TSA Lung</a>
+            <a class="button button-outline" href="#compra">Comprar Mil Ofrendas</a>
           </div>
         </div>
 
@@ -170,8 +167,7 @@
             Cada encuentro se organiza con respeto por la tradición, cuidado por la comunidad y una comunicación clara
             para quienes se acercan por primera vez.
           </p>
-          <a class="button button-outline checkout-link" href="https://mpago.li/2Ua6D4T" target="_blank"
-            rel="noopener" data-checkout-event="tsa_lung">Comprar boleto TSA Lung</a>
+          <a class="button button-outline" href="#compra">Comprar boleto TSA Lung</a>
         </div>
       </div>
     </section>
@@ -245,8 +241,7 @@
               <dd>Boletos disponibles por Mercado Pago</dd>
             </div>
           </dl>
-          <a class="button button-full ticket-link checkout-link" id="cta-evento" href="https://mpago.li/2Ua6D4T"
-            target="_blank" rel="noopener" data-checkout-event="tsa_lung">Comprar boleto TSA Lung</a>
+          <a class="button button-full ticket-link" id="cta-evento" href="#compra">Comprar boleto TSA Lung</a>
         </article>
       </div>
     </section>
@@ -277,12 +272,47 @@
             <p>Camino a los Azulejos #9, Col. Valle Escondido, Zona Esmeralda, Atizapán de Zaragoza.</p>
           </article>
         </div>
-        <div class="checkout-actions reveal" aria-label="Compra de boletos por Mercado Pago">
-          <a class="button button-full checkout-link" href="https://mpago.li/2Ua6D4T" target="_blank" rel="noopener"
-            data-checkout-event="tsa_lung">Comprar boleto TSA Lung</a>
-          <a class="button button-outline button-full checkout-link" href="https://mpago.li/24Tx68K" target="_blank"
-            rel="noopener" data-checkout-event="mil_ofrendas">Comprar boleto Mil Ofrendas</a>
-        </div>
+        <form class="checkout-form reveal" id="checkout-form" action="/api/create-preference" method="post" novalidate>
+          <div class="field">
+            <label for="checkout-nombre">Nombre</label>
+            <input id="checkout-nombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre completo"
+              required>
+          </div>
+          <div class="field">
+            <label for="checkout-email">Correo</label>
+            <input id="checkout-email" name="email" type="email" autocomplete="email" placeholder="correo@ejemplo.com"
+              required>
+          </div>
+          <div class="field">
+            <label for="checkout-telefono">Teléfono</label>
+            <input id="checkout-telefono" name="telefono" type="tel" inputmode="tel" autocomplete="tel"
+              placeholder="Tu teléfono" required>
+          </div>
+          <div class="field">
+            <label for="checkout-ticket">Tipo de boleto</label>
+            <select id="checkout-ticket" name="tipo_ticket" required>
+              <option value="General">General</option>
+              <option value="Presencial">Presencial</option>
+              <option value="Zoom">Zoom</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="checkout-cantidad">Cantidad</label>
+            <input id="checkout-cantidad" name="cantidad" type="number" min="1" max="10" value="1" required>
+          </div>
+          <div class="checkout-actions" aria-label="Compra de boletos por Mercado Pago">
+            <button class="button button-full checkout-link" type="submit" data-checkout-event="tsa_lung">
+              Comprar boleto TSA Lung
+            </button>
+            <button class="button button-outline button-full checkout-link" type="submit"
+              data-checkout-event="mil_ofrendas">
+              Comprar boleto Mil Ofrendas
+            </button>
+          </div>
+          <p class="form-note" id="checkout-status" role="status" aria-live="polite">
+            El pago se procesa de forma segura en Mercado Pago.
+          </p>
+        </form>
       </div>
     </section>
 
@@ -298,10 +328,8 @@
             target="_blank" rel="noopener">Atención humana por WhatsApp</a>
         </div>
         <div class="lead-form reveal">
-          <a class="button button-full checkout-link" href="https://mpago.li/2Ua6D4T" target="_blank" rel="noopener"
-            data-checkout-event="tsa_lung">Comprar boleto TSA Lung</a>
-          <a class="button button-outline button-full checkout-link" href="https://mpago.li/24Tx68K" target="_blank"
-            rel="noopener" data-checkout-event="mil_ofrendas">Comprar boleto Mil Ofrendas</a>
+          <a class="button button-full" href="#compra">Comprar boleto TSA Lung</a>
+          <a class="button button-outline button-full" href="#compra">Comprar boleto Mil Ofrendas</a>
         </div>
       </div>
     </section>
@@ -346,8 +374,7 @@
             <span>20 y 21 junio · 10:00 a 18:00 hrs</span>
             <h3>TSA Lung</h3>
             <p>Respiración activa y movimiento de energía con Geshe Dangsong Namgyal en Convento de Acolman 69.</p>
-            <a class="button button-full ticket-link checkout-link" href="https://mpago.li/2Ua6D4T" target="_blank"
-              rel="noopener" data-checkout-event="tsa_lung">Comprar boleto TSA Lung</a>
+            <a class="button button-full ticket-link" href="#compra">Comprar boleto TSA Lung</a>
           </article>
           <article class="next-event-card reveal">
             <span>26, 27 y 28 junio · 10:00 a 18:00 hrs</span>
@@ -361,8 +388,7 @@
               <li>Dirección: Camino a los Azulejos #9, Col. Valle Escondido, Zona Esmeralda, Atizapán de Zaragoza.</li>
               <li>Compra segura por Mercado Pago.</li>
             </ul>
-            <a class="button button-outline button-full ticket-link checkout-link" href="https://mpago.li/24Tx68K"
-              target="_blank" rel="noopener" data-checkout-event="mil_ofrendas">Comprar boleto Mil Ofrendas</a>
+            <a class="button button-outline button-full ticket-link" href="#compra">Comprar boleto Mil Ofrendas</a>
           </article>
         </div>
       </div>
@@ -399,8 +425,7 @@
       <div class="shell final-cta-inner reveal">
         <p class="eyebrow">Cupo limitado</p>
         <h2>Compra tu boleto y conoce esta práctica ancestral.</h2>
-        <a class="button button-light ticket-link checkout-link" id="cta-final" href="https://mpago.li/2Ua6D4T"
-          target="_blank" rel="noopener" data-checkout-event="tsa_lung">Comprar boleto TSA Lung</a>
+        <a class="button button-light ticket-link" id="cta-final" href="#compra">Comprar boleto TSA Lung</a>
       </div>
     </section>
   </main>
@@ -429,8 +454,7 @@
   </footer>
 
   <div class="mobile-sticky-cta" aria-label="Acción principal móvil">
-    <a class="button ticket-link checkout-link" href="https://mpago.li/2Ua6D4T" target="_blank" rel="noopener"
-      data-checkout-event="tsa_lung">Comprar boleto</a>
+    <a class="button ticket-link" href="#compra">Comprar boleto</a>
   </div>
 
   <script src="script.js"></script>

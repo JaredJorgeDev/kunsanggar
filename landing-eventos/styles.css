@@ -455,6 +455,7 @@ p {
 .method-card,
 .premium-card,
 .lead-form,
+.checkout-form,
 .facilitator-card,
 .testimonial-card,
 .next-event-card,
@@ -666,8 +667,13 @@ p {
   font-weight: 800;
 }
 
-.lead-form {
+.lead-form,
+.checkout-form {
   padding: clamp(22px, 4vw, 34px);
+}
+
+.checkout-form {
+  margin-top: 16px;
 }
 
 .checkout-actions {
