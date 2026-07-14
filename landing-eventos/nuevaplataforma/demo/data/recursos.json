@@ -1,0 +1,82 @@
+[
+  {
+    "id": "guia-meditacion",
+    "titulo": "Guía breve para iniciar una sesión",
+    "tipo": "PDF",
+    "tema": "Prácticas",
+    "nivel": "Inicial",
+    "estado": "Abierto",
+    "descripcion": "Preparación del espacio, postura, intención y cierre de práctica.",
+    "duracion": "8 páginas"
+  },
+  {
+    "id": "audio-respiracion",
+    "titulo": "Respiración y asentamiento",
+    "tipo": "Audio",
+    "tema": "Meditación",
+    "nivel": "Inicial",
+    "estado": "Abierto",
+    "descripcion": "Audio breve para estabilizar la atención antes de estudiar o practicar.",
+    "duracion": "12 min"
+  },
+  {
+    "id": "video-linaje",
+    "titulo": "Introducción al linaje Yungdrung Bön",
+    "tipo": "Video",
+    "tema": "Enseñanzas",
+    "nivel": "Inicial",
+    "estado": "Privado",
+    "descripcion": "Contexto histórico y espiritual del linaje para miembros registrados.",
+    "duracion": "34 min"
+  },
+  {
+    "id": "mudras-contexto",
+    "titulo": "Contexto de las prácticas mudras",
+    "tipo": "Enseñanza",
+    "tema": "Prácticas",
+    "nivel": "Intermedio",
+    "estado": "Privado",
+    "descripcion": "Notas introductorias para comprender la función de gesto, cuerpo y atención.",
+    "duracion": "18 min"
+  },
+  {
+    "id": "faq-bon",
+    "titulo": "Preguntas frecuentes sobre Bön",
+    "tipo": "PDF",
+    "tema": "Preguntas frecuentes",
+    "nivel": "Inicial",
+    "estado": "Abierto",
+    "descripcion": "Respuestas sencillas a dudas comunes para personas que se acercan por primera vez.",
+    "duracion": "6 páginas"
+  },
+  {
+    "id": "grabacion-dzogchen",
+    "titulo": "Archivo de enseñanzas Dzogchen",
+    "tipo": "Video",
+    "tema": "Enseñanzas",
+    "nivel": "Avanzado",
+    "estado": "Privado",
+    "descripcion": "Colección demostrativa de clases disponibles para estudiantes inscritos.",
+    "duracion": "Serie"
+  },
+  {
+    "id": "texto-khandro",
+    "titulo": "Notas de estudio: Esencia del Corazón de la Khandro",
+    "tipo": "PDF",
+    "tema": "Textos",
+    "nivel": "Avanzado",
+    "estado": "Privado",
+    "descripcion": "Material de apoyo para acompañar enseñanzas autorizadas.",
+    "duracion": "Material privado"
+  },
+  {
+    "id": "meditacion-guiada",
+    "titulo": "Meditación guiada de presencia",
+    "tipo": "Audio",
+    "tema": "Meditación",
+    "nivel": "Inicial",
+    "estado": "Abierto",
+    "descripcion": "Práctica guiada para cultivar presencia sobria y continuidad.",
+    "duracion": "15 min"
+  }
+]

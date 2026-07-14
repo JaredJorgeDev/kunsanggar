@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programas | Kunsang Gar México</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header"><nav class="nav shell"><a class="brand" href="index.html"><img src="../kunsaanglogo.jpg" alt="Kunsang Gar México"><span>Kunsang Gar México</span></a><button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span></button><div class="nav-menu"><a class="nav-link" href="index.html">Inicio</a><a class="nav-link" href="maestro.html">Nosotros</a><a class="nav-link" href="programas.html" aria-current="page">Programas</a><a class="nav-link" href="eventos.html">Eventos</a><a class="nav-link" href="comunidad.html">Comunidad</a><a class="nav-link" href="biblioteca.html">Recursos</a><a class="nav-link" href="donativos.html">Donativos</a></div><div class="nav-actions"><button class="search-toggle" type="button" aria-label="Buscar">⌕</button><a class="btn small secondary" href="login.html">Iniciar sesión</a><a class="btn small" href="programa.html">Comenzar</a></div></nav><div class="search-bar"><div class="shell"><input type="search" placeholder="Buscar programa"></div></div></header>
+  <main>
+    <section class="hero"><div class="shell"><span class="eyebrow">Catálogo</span><h1>Programas de estudio y práctica.</h1><p class="hero-copy">Una vista demostrativa de rutas progresivas para estudiantes nuevos, practicantes con experiencia y personas que buscan profundizar.</p></div></section>
+    <section class="section">
+      <div class="shell">
+        <div class="filters">
+          <div class="field"><label for="nivel">Nivel</label><select id="nivel" class="program-filter" data-filter="nivel" data-label="Todos los niveles"></select></div>
+          <div class="field"><label for="modalidad">Modalidad</label><select id="modalidad" class="program-filter" data-filter="modalidad" data-label="Todas"></select></div>
+          <div class="field"><label for="tema">Tema</label><select id="tema" class="program-filter" data-filter="tema" data-label="Todos"></select></div>
+          <div class="field"><label for="maestro">Maestro</label><select id="maestro" class="program-filter" data-filter="maestro" data-label="Todos"></select></div>
+          <div class="field"><label for="estado">Estado</label><select id="estado" class="program-filter" data-filter="estado" data-label="Todos"></select></div>
+        </div>
+        <div class="grid cols-3" data-programs-grid></div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="shell footer-grid"><div><div class="footer-brand"><img src="../kunsaanglogo.jpg" alt=""><span>Kunsang Gar México</span></div><p>Programas demostrativos para una plataforma digital.</p></div><div><strong>Explorar</strong><a href="index.html">Inicio</a><a href="eventos.html">Eventos</a><a href="biblioteca.html">Biblioteca</a></div><div><strong>Área privada</strong><a href="perfil.html">Perfil</a><a href="login.html">Acceso</a></div><div><strong>Apoyo</strong><a href="donativos.html">Donativos</a></div><div><strong>Contacto</strong><a href="comunidad.html">Comunidad</a></div></div></footer>
+  <button class="back-top" type="button" aria-label="Volver arriba">↑</button><script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo Plataforma Digital | Kunsang Gar México</title>
+  <meta name="description" content="Demo navegable de la futura plataforma digital de Kunsang Gar México para programas, eventos, comunidad y recursos.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+  <header class="site-header">
+    <nav class="nav shell" aria-label="Principal">
+      <a class="brand" href="index.html"><img src="../kunsaanglogo.jpg" alt="Kunsang Gar México"><span>Kunsang Gar México</span></a>
+      <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span></button>
+      <div class="nav-menu">
+        <div class="nav-item"><button type="button" aria-expanded="false">Nosotros</button><div class="mega-menu"><div><strong>Kunsang Gar México</strong><p>Centro de estudio y práctica de la tradición Yungdrung Bön.</p></div><div><a href="maestro.html">Geshe Dangsong Namgyal</a><a href="comunidad.html">Comunidad nacional</a><a href="comunidad.html#convivencia">Código de convivencia</a></div><div><a href="donativos.html">Sostener las enseñanzas</a><a href="login.html">Área privada</a></div></div></div>
+        <div class="nav-item"><button type="button" aria-expanded="false">Camino Bön</button><div class="mega-menu"><div><strong>Rutas de práctica</strong><p>Entrada gradual para estudiar, practicar y profundizar.</p></div><div><a href="#rutas">Fundamentos</a><a href="#rutas">Introducción al Bön</a><a href="#rutas">Camino avanzado</a></div><div><a href="biblioteca.html">Biblioteca</a><a href="programas.html">Programas</a></div></div></div>
+        <a class="nav-link" href="programas.html">Programas</a>
+        <a class="nav-link" href="eventos.html">Eventos</a>
+        <a class="nav-link" href="comunidad.html">Comunidad</a>
+        <a class="nav-link" href="biblioteca.html">Recursos</a>
+        <a class="nav-link" href="donativos.html">Donativos</a>
+      </div>
+      <div class="nav-actions">
+        <button class="search-toggle" type="button" aria-label="Buscar" aria-expanded="false">⌕</button>
+        <a class="btn small secondary" href="login.html">Iniciar sesión</a>
+        <a class="btn small" href="programas.html">Comenzar</a>
+      </div>
+    </nav>
+    <div class="search-bar"><div class="shell"><input type="search" placeholder="Buscar programas, eventos o recursos"></div></div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div class="reveal">
+          <span class="eyebrow">Demo de plataforma</span>
+          <h1>Un camino vivo de estudio, práctica y transformación interior.</h1>
+          <p class="hero-copy">Kunsang Gar México acerca las enseñanzas auténticas de la tradición Yungdrung Bön a personas que desean conocer, practicar y profundizar en este linaje ancestral.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#rutas">Explorar el camino</a>
+            <a class="btn secondary" href="eventos.html">Ver próximos eventos</a>
+          </div>
+        </div>
+        <figure class="hero-card reveal">
+          <img src="../kunsaanglogo.jpg" alt="Logo de Kunsang Gar México como imagen provisional de la plataforma">
+          <figcaption class="hero-card-caption"><strong>Plataforma de práctica</strong><p>Programas, sesiones en vivo, recursos privados y comunidad en una experiencia ordenada.</p></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="rutas">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Punto de entrada</span>
+          <h2>Encuentra el punto de entrada adecuado para ti.</h2>
+        </div>
+        <div class="path-selector reveal">
+          <button class="path-option" type="button" data-path="comenzar">Quiero comenzar</button>
+          <button class="path-option" type="button" data-path="experiencia">Ya tengo experiencia</button>
+          <button class="path-option" type="button" data-path="profundizar">Busco profundizar</button>
+        </div>
+        <div class="recommendation-panel reveal" data-recommendation></div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Rutas de aprendizaje</span>
+          <h2>Programas progresivos para sostener una práctica real.</h2>
+        </div>
+        <div class="grid cols-3">
+          <article class="route-card reveal"><span class="label">Inicial</span><h3>Fundamentos de meditación</h3><p>Para personas nuevas que necesitan postura, atención, respiración y orientación básica.</p><ul class="meta-list"><li>Duración: 4 semanas</li><li>Modalidad: online</li><li>Próximo paso: sesión introductoria</li></ul><a class="btn small secondary" href="programas.html">Explorar ruta</a></article>
+          <article class="route-card reveal"><span class="label">Inicial / intermedio</span><h3>Introducción al Yungdrung Bön</h3><p>Filosofía, linaje, contexto histórico y prácticas esenciales para entrar con claridad.</p><ul class="meta-list"><li>Duración: 6 módulos</li><li>Modalidad: híbrida</li><li>Próximo paso: lectura guiada</li></ul><a class="btn small secondary" href="programas.html">Explorar ruta</a></article>
+          <article class="route-card reveal"><span class="label">Avanzado</span><h3>Camino avanzado</h3><p>Tsa Lung, Dzogchen, rituales y enseñanzas profundas con requisitos y acompañamiento.</p><ul class="meta-list"><li>Duración: variable</li><li>Modalidad: online y presencial</li><li>Próximo paso: entrevista de orientación</li></ul><a class="btn small secondary" href="programas.html">Explorar ruta</a></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell split-grid">
+        <div class="reveal">
+          <span class="eyebrow">Programa destacado</span>
+          <h2>Mujeres Sagradas de la Gran Perfección</h2>
+          <p>Enseñanzas, prácticas mudras y transmisión oral lung del texto raíz Bonpo Dzogchen Esencia del Corazón de la Khandro.</p>
+          <div class="meta-row"><span class="pill">Geshe Dangsong Namgyal</span><span class="pill">25 y 26 de julio de 2026</span><span class="pill">Zoom</span><span class="pill">Inglés con traducción al español</span><span class="pill gold">$400 MXN</span></div>
+          <div class="button-row"><a class="btn secondary" href="programa.html">Ver programa</a><a class="btn" data-registration href="#">Inscribirme</a></div>
+        </div>
+        <div class="panel reveal"><span class="label">Ruta relacionada</span><h3>Dzogchen Bön</h3><p>Este programa pertenece al camino avanzado y requiere asistir con respeto por el formato de transmisión oral.</p><div class="progress"><span style="width: 42%"></span></div></div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="shell split-grid">
+        <div class="image-card reveal"><img src="../kunsaanglogo.jpg" alt="Logo de Kunsang Gar México usado como imagen provisional del maestro"></div>
+        <div class="reveal">
+          <span class="eyebrow">Maestro principal</span>
+          <h2>Geshe Dangsong Namgyal</h2>
+          <p>Maestro de la tradición Yungdrung Bön dedicado a transmitir estudio, práctica contemplativa y enseñanzas profundas con un lenguaje accesible para comunidades internacionales.</p>
+          <ul class="clean-list"><li>Formación monástica y estudio filosófico.</li><li>Enseñanza en contextos presenciales y digitales.</li><li>Énfasis en práctica, escucha y continuidad.</li></ul>
+          <a class="btn secondary" href="maestro.html">Conocer al maestro</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-heading reveal"><span class="eyebrow">Próximos eventos</span><h2>Encuentros para aprender, practicar y reunirse.</h2></div>
+        <div class="grid cols-4" data-events-grid></div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="shell">
+        <div class="section-heading reveal"><span class="eyebrow">Experiencia digital</span><h2>Funciones pensadas para una comunidad de práctica.</h2></div>
+        <div class="grid cols-4">
+          <article class="feature-card reveal"><h3>Cursos por niveles</h3><p>Rutas organizadas por experiencia y requisitos.</p></article>
+          <article class="feature-card reveal"><h3>Sesiones en vivo</h3><p>Calendario, recordatorios y enlaces de acceso.</p></article>
+          <article class="feature-card reveal"><h3>Biblioteca privada</h3><p>Videos, audios, PDFs y textos de apoyo.</p></article>
+          <article class="feature-card reveal"><h3>Historial y progreso</h3><p>Participación, guardados, constancias y seguimiento.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell split-grid">
+        <div class="reveal"><span class="eyebrow">Comunidad</span><h2>Una comunidad nacional con práctica en línea.</h2><p>Grupos de práctica, actividades abiertas, sesiones periódicas y acompañamiento para sostener continuidad.</p><span class="demo-tag">Datos demostrativos</span></div>
+        <div class="stats-grid reveal"><div class="stat"><strong>420</strong><span>Miembros</span></div><div class="stat"><strong>18</strong><span>Cursos</span></div><div class="stat"><strong>86</strong><span>Recursos</span></div><div class="stat"><strong>9</strong><span>Actividades mensuales</span></div></div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="shell">
+        <div class="section-heading reveal"><span class="eyebrow">Recursos</span><h2>Biblioteca para estudiar y practicar con orden.</h2></div>
+        <div class="grid cols-3">
+          <article class="resource-card reveal"><h3>Enseñanzas breves</h3><p>Videos introductorios para revisar contexto y vocabulario.</p></article>
+          <article class="resource-card reveal"><h3>Meditaciones guiadas</h3><p>Audios para sesiones personales y grupos de práctica.</p></article>
+          <article class="resource-card reveal"><h3>Textos y preguntas frecuentes</h3><p>Materiales para preparar la asistencia a programas.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell split-grid">
+        <div class="reveal"><span class="eyebrow">Donativos</span><h2>Sostener las enseñanzas también es parte de la práctica.</h2><p>La plataforma contempla donativo único, donativo mensual, apoyo a eventos y becas para estudiantes.</p><a class="btn" href="donativos.html">Realizar donativo</a></div>
+        <form class="panel reveal"><span class="label">Newsletter</span><h3>Recibe noticias, enseñanzas y próximos eventos.</h3><div class="field"><label for="news-name">Nombre</label><input id="news-name" type="text" placeholder="Tu nombre"></div><div class="field"><label for="news-email">Correo</label><input id="news-email" type="email" placeholder="correo@ejemplo.com"></div><button class="btn" type="button">Suscribirme</button></form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-grid">
+      <div><div class="footer-brand"><img src="../kunsaanglogo.jpg" alt=""><span>Kunsang Gar México</span></div><p>Demo de plataforma digital para estudio, práctica, comunidad y recursos.</p></div>
+      <div><strong>Camino Bön</strong><a href="#rutas">Rutas</a><a href="maestro.html">Maestro</a><a href="biblioteca.html">Biblioteca</a></div>
+      <div><strong>Programas</strong><a href="programas.html">Catálogo</a><a href="programa.html">Programa destacado</a><a href="perfil.html">Mi progreso</a></div>
+      <div><strong>Eventos</strong><a href="eventos.html">Calendario</a><a href="evento.html">Detalle</a><a href="comunidad.html">Comunidad</a></div>
+      <div><strong>Contacto</strong><a href="donativos.html">Donativos</a><a href="login.html">Área privada</a><a href="#">Aviso de privacidad</a></div>
+    </div>
+  </footer>
+
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Inscripción demostrativa">
+    <div class="modal-card"><div class="modal-head"><div><span class="label">Inscripción</span><h2 data-modal-title>Inscripción</h2></div><button class="icon-button modal-close" type="button" aria-label="Cerrar">×</button></div><p>Esta demo muestra el flujo. Para Mujeres Sagradas usa los enlaces reales.</p><div class="button-row"><a class="btn" data-stripe href="#">Pagar en Stripe</a><a class="btn secondary" data-registration href="#">Completar registro</a></div></div>
+  </div>
+  <button class="back-top" type="button" aria-label="Volver arriba">↑</button>
+  <script src="script.js"></script>
+</body>
+
+</html>
