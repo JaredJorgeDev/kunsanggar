@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "mujeres-sagradas",
+    "titulo": "Mujeres Sagradas de la Gran Perfección",
+    "subtitulo": "Sabiduría ancestral del linaje de mujeres Bön y Dzogchen.",
+    "descripcion": "De la sabiduría ancestral del linaje de mujeres Bön que alcanzaron la realización última. Enseñanzas, prácticas mudras y transmisión oral lung del texto raíz Bonpo Dzogchen Esencia del Corazón de la Khandro. Treinta signos y significados de la Naturaleza Última en la Antigua Tradición Tibetana.",
+    "maestro": "Geshe Dangsong Namgyal",
+    "fechas": "25 y 26 de julio de 2026",
+    "horario": "2:00 a.m. hora de CDMX",
+    "modalidad": "Zoom",
+    "idioma": "Inglés con traducción al español",
+    "precio": "$400 MXN",
+    "imagen": "/geshe.png",
+    "payment_url": "https://buy.stripe.com/6oUdR93H804FaNO6eFg7e0t",
+    "registration_url": "https://docs.google.com/forms/d/e/1FAIpQLSdOD_ifV4J5vuE4DYC9gXBxWS2f3c-aOQyDzdpgb1dcMVLpkw/viewform",
+    "estado": "activo",
+    "destacado": true,
+    "aprendizajes": [
+      "Linaje de mujeres Bön",
+      "Mudras",
+      "Lung o transmisión oral",
+      "Esencia del Corazón de la Khandro",
+      "Treinta Signos de la Naturaleza Última"
+    ]
+  },
+  {
+    "slug": "nampar-gyalwa",
+    "titulo": "Mil Ofrendas a Nampar Gyalwa",
+    "subtitulo": "Práctica ritual de generosidad, purificación y dedicación.",
+    "descripcion": "Ritual de la tradición Yungdrung Bön para cultivar generosidad, purificar obstáculos y fortalecer condiciones favorables para la práctica.",
+    "maestro": "Geshe Dangsong Namgyal",
+    "fechas": "Próxima fecha por confirmar",
+    "horario": "Por confirmar",
+    "modalidad": "Presencial y en línea",
+    "idioma": "Español",
+    "precio": "Por confirmar",
+    "imagen": "/kunsaanglogo.jpg",
+    "payment_url": "",
+    "registration_url": "",
+    "estado": "proximamente",
+    "destacado": false,
+    "aprendizajes": [
+      "Generosidad",
+      "Purificación",
+      "Dedicación",
+      "Nampar Gyalwa"
+    ]
+  },
+  {
+    "slug": "tsa-lung",
+    "titulo": "TSA Lung",
+    "subtitulo": "Respiración, movimiento de energía y presencia corporal.",
+    "descripcion": "Práctica guiada de respiración activa y movimiento de energía dentro de la tradición tibetana.",
+    "maestro": "Geshe Dangsong Namgyal",
+    "fechas": "Próxima fecha por confirmar",
+    "horario": "Por confirmar",
+    "modalidad": "Presencial",
+    "idioma": "Español",
+    "precio": "Por confirmar",
+    "imagen": "/kunsaanglogo.png",
+    "payment_url": "",
+    "registration_url": "",
+    "estado": "proximamente",
+    "destacado": false,
+    "aprendizajes": [
+      "Respiración consciente",
+      "Movimiento de energía",
+      "Atención corporal",
+      "Práctica guiada"
+    ]
+  }
+]
