@@ -295,6 +295,11 @@
   };
 
   const createLanguageModal = () => {
+    const requestedLanguage = new URLSearchParams(window.location.search).get("lang");
+    if (["es", "en"].includes(requestedLanguage)) {
+      setLanguage(requestedLanguage);
+      return;
+    }
     if (localStorage.getItem(languageKey) || $(".language-modal")) return;
     const modal = document.createElement("section");
     modal.className = "language-modal";
