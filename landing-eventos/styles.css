@@ -331,6 +331,8 @@ p {
 
 .hero-visual {
   position: relative;
+  width: 100%;
+  max-width: 100%;
   margin: 0;
   border: 1px solid rgba(201, 154, 59, 0.38);
   border-radius: var(--radius);
@@ -352,9 +354,9 @@ p {
 
 .hero-visual img {
   width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  object-position: center top;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  object-position: center;
 }
 
 .section {
@@ -378,8 +380,9 @@ p {
 
 .course-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
+  max-width: 760px;
 }
 
 .course-card,
@@ -417,8 +420,8 @@ p {
 
 .course-image img {
   width: 100%;
-  aspect-ratio: 16 / 11;
-  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
   transition: transform 260ms ease;
 }
 
@@ -542,7 +545,7 @@ p {
 
 .steps {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
   grid-column: 1 / -1;
 }
@@ -657,10 +660,6 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .course-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .learning-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -672,7 +671,12 @@ p {
 
 @media (max-width: 640px) {
   :root {
-    --shell: min(100% - 24px, 1140px);
+    --shell: calc(100% - 24px);
+  }
+
+  .shell {
+    width: var(--shell);
+    max-width: var(--shell);
   }
 
   .site-header .button-small {
@@ -688,9 +692,38 @@ p {
   }
 
   .hero-copy,
+  .hero-grid,
   .hero-actions,
   .hero-meta {
-    max-width: calc(100vw - 32px);
+    max-width: 100%;
+  }
+
+  .hero-copy {
+    padding-inline: 12px;
+  }
+
+  .hero-grid {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .hero-grid > * {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero-visual {
+    justify-self: start;
+    width: 320px;
+    max-width: calc(100vw - 48px);
+    margin-left: 12px;
+  }
+
+  .hero-visual img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
   }
 
   h1 {

@@ -101,7 +101,7 @@
         link.target = "_blank";
         link.rel = "noopener";
       } else {
-        link.href = `${basePath}#cursos`;
+        link.href = `${basePath}#curso`;
         link.removeAttribute("target");
         link.removeAttribute("rel");
         link.textContent = "Ver cursos activos";
